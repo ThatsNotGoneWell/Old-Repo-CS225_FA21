@@ -96,10 +96,10 @@ PNG illinify(PNG image) {
     for (unsigned y = 0; y < image.height(); y++) {
       HSLAPixel & pixel = image.getPixel(x, y);
 
-      if(pixel.h<113.5 && pixel.h>293.5){
-        pixel.h = 11;
-      }else{
+      if(pixel.h>113.5 && pixel.h<293.5){
         pixel.h = 216;
+      }else{
+        pixel.h = 11;
       }
       
     }
@@ -131,7 +131,7 @@ PNG watermark(PNG firstImage, PNG secondImage) {
         if(pixel1.l > 0.8){
           pixel1.l = 1;
         }else{
-          pixel1 = pixel1.l + 0.2;
+          pixel1.l = pixel1.l + 0.2;
         }
       }
       
