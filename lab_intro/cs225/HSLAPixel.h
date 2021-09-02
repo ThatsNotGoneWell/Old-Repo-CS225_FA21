@@ -12,6 +12,7 @@
 
 namespace cs225 {
     class HSLAPixel{
+    public:
         double h;
         double s;
         double l;
