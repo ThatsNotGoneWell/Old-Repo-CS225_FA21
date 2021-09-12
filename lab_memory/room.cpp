@@ -63,7 +63,7 @@ void Room::clear()
 {
     if (letters != NULL)
 
-        delete letters;
+        delete[] letters;//changed
 }
 
 void Room::copy(const Room& other)
@@ -73,5 +73,9 @@ void Room::copy(const Room& other)
     count = other.count;
     letterCount = other.letterCount;
     letters = other.letters;
-
+    //changed
+    letters = new Letter[max_letters];
+    for(int i=0; i<26;i++){
+	letters[i]=other.letters[i];
+    }
 }
