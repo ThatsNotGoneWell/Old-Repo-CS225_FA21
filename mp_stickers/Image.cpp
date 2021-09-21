@@ -186,11 +186,11 @@ void Image::rotateColor(double degrees) {
     
     for (unsigned x = 0; x < this->width(); x++) {
         for (unsigned y = 0; y < this->height(); y++) {
-            
+            //std::cout << "pixle pos:" << x << ", " << y << std::endl;
             HSLAPixel& pixel = this->getPixel(x, y);
             double calc=pixel.h;
             calc=calc+degrees;
-            if(calc>360){
+            if(calc>=360){
                 calc=calc-360;
             }
             if(calc<0){

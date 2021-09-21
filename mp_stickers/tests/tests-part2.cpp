@@ -174,6 +174,7 @@ TEST_CASE("StickerSheet::getSticker() returns NULL for a removed sticker", "[wei
   sheet.removeSticker(0);
 
   REQUIRE( sheet.getSticker(0) == NULL );
+  
 }
 
 
@@ -190,6 +191,7 @@ TEST_CASE("StickerSheet::translate() translates a sticker's location", "[weight=
   sheet.translate(0, 20, 200);
 
   REQUIRE( sheet.render() == expected );
+  
 }
 
 TEST_CASE("StickerSheet::translate() returns false for a non-existant sticker", "[weight=1][part=2][timeout=30000][valgrind]") {
@@ -201,6 +203,7 @@ TEST_CASE("StickerSheet::translate() returns false for a non-existant sticker", 
   sheet.addSticker(i, 20, 200);
 
   REQUIRE( sheet.translate(3, 20, 200) == false );
+  
 }
 
 
