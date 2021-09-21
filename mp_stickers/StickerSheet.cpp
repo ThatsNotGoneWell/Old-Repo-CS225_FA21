@@ -121,7 +121,7 @@ Image *StickerSheet::getSticker (unsigned index){
     
 }
 Image StickerSheet::render () const{
-    Image new_image;
+    Image output;
     unsigned Xmax = BGImage.width();
     unsigned Ymax = BGImage.height();
 
@@ -135,14 +135,14 @@ Image StickerSheet::render () const{
             }
         }
     }
-    new_image = BGImage;
-    new_image.resize(Xmax, Ymax);
+    output = BGImage;
+    output.resize(Xmax, Ymax);
 
     for(unsigned i = 0; i < num_stickers; i++){
         if(stickerz[i] != NULL){
-            for(unsigned m = X_coor[i]; m < (X_coor[i] + stickerz[i]->width()); m++){
-                for(unsigned n = Y_coor[i]; n < (Y_coor[i] + stickerz[i]->height()); n++){
-                    HSLAPixel & pixel1=new_image.getPixel(m, n);
+            for(unsigned int m = X_coor[i]; m < (X_coor[i]+ stickerz[i]->width()); m++){
+                for(unsigned int n = Y_coor[i]; n < (Y_coor[i]+ stickerz[i]->width()); n++){
+                    HSLAPixel & pixel1=output.getPixel(m, n);
                     HSLAPixel & pixel2=stickerz[i]->getPixel((m - X_coor[i]), (n - Y_coor[i]));
                     if(pixel2.a != 0){
                         pixel1 = pixel2;
@@ -151,7 +151,7 @@ Image StickerSheet::render () const{
             }
         }
     }
-    return new_image;
+    return output;
 }
 
 
