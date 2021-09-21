@@ -188,12 +188,15 @@ void Image::rotateColor(double degrees) {
         for (unsigned y = 0; y < this->height(); y++) {
             
             HSLAPixel& pixel = this->getPixel(x, y);
-            if(pixel.h+degrees>=360){
-                pixel.h=pixel.h+degrees-360;
-            }else{
-                pixel.h=pixel.h+degrees;
+            double calc=pixel.h;
+            calc=calc+degrees;
+            if(calc>360){
+                calc=calc-360;
             }
-            
+            if(calc<0){
+                calc=calc+360;
+            }
+            pixel.h=calc;
         }
     }   
 }
@@ -217,14 +220,14 @@ void Image::illinify() {
 void Image::scale(unsigned w, unsigned h) {
     
     PNG *output = new PNG(w,h);
-    
+    //*output=*this;
     //relocate the pixels
     for (unsigned int x = 0; x < w; x++) {
         for (unsigned int y = 0; y < h; y++) {
             
             HSLAPixel & scaled = output->getPixel(x, y);
-            unsigned relocatedX = (unsigned)( (float)x / w * this->width());
-            unsigned relocatedY = (unsigned)( (float)y / h * this->height());
+            unsigned relocatedX = (unsigned int)( this->width()* x / w +0.5);
+            unsigned relocatedY = (unsigned int)( this->height()*y / h +0.5);
 			scaled=this->getPixel(relocatedX, relocatedY);
 			
         }
@@ -245,8 +248,8 @@ void Image::scale(unsigned w, unsigned h) {
 }
 
 void Image::scale(double factor) {
-    unsigned int scaledX= this->width()*factor;
-    unsigned int scaledY= this->height()*factor;
+    unsigned int scaledX= (unsigned int)this->width()*factor;
+    unsigned int scaledY= (unsigned int)this->height()*factor;
     scale(scaledX,scaledY);
      
 }
