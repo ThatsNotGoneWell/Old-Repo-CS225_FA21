@@ -74,6 +74,11 @@ bool isBalanced(queue<char> input)
         }else{
             i--;
         }
+	currr.pop();
+	if(i>0){
+	    i=1;
+	    break;
+	}
     }
 
     // @TODO: Make less optimistic
