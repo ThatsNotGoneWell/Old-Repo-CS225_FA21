@@ -188,8 +188,7 @@ void List<T>::tripleRotate() {
     first->prev=third;
     third->next=first;
 
-    // second->next=third;
-    // third->prev=second;
+   
     
 
     if(second->prev==NULL){
