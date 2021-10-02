@@ -347,50 +347,30 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
     list=first;
     return first;
   }
-  // if(first==NULL&&second==NULL){
-  //     return NULL;
-  //   }
+  
   ListNode *currF=first;
   ListNode *currS=second;
-  // ListNode *nextF;
-  // ListNode *nextS;
   ListNode *temp;
   ListNode *result;
-  // ListNode *currF=NULL;
-  // ListNode *currF=NULL;
-  // ListNode *currF=NULL;
   
   if(currS->data<currF->data){
     result=second;
     
-    //head_=second;
     second=second->next;
-    //currS=list;
   }else{
     result=first;
     
-    //head_=first;
     first=first->next;
-    //currF=list;
+    
   }
 
-  // if(second->data < first->data){
-  //   temp = second;
-  //   second = first;
-  //   first = temp;
-  //   if(first != NULL){
-  //     first->prev = NULL;
-  //   }
-  // }
+  
   currF=first;
   currS=second; 
   temp=result;
   while(currS!=NULL&&currF!=NULL){
     
-    //nextS=currS->next;
-    
-    //while(currF!=NULL){
-      //nextF=currF->next;
+   
       if(currS->data<currF->data){
         
         temp->next=currS;
@@ -404,11 +384,7 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
         
       }
       temp=temp->next;
-    //}
-    // if(currF->next==currS&&currS->prev==currF){
-    //   break;
-    // }
-    //currS=nextS;
+    
     
   }
   if(currF!=NULL){
@@ -435,45 +411,7 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
 template <typename T>
 typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength) {
   /// @todo Graded in MP3.2
-  // if(chainLength==1){
-  //   start->prev = NULL;
-  //   start->next = NULL;
-  //   return start;
-  // }else{
-  //   int brk=chainLength/2;
-    
-  //   ListNode* temp = start;
-  //   for(int i = 1; i <= brk; i++){
-  //     temp = temp->next;
-  //   }
-  //   if (temp != NULL){  //separate the lists
-  //     temp->prev->next = NULL;
-  //     temp->prev = NULL;
-  //   }
-  //   //split(brk);
-  //   start = mergesort(start, brk);
-  //   temp = mergesort(temp, chainLength - brk);
-  //   start = merge(start, temp);
-  //   return start;
-
-
-
-  // if(chainLength == 1) {
-  //   return start;
-  // }
-  // else {
-  //   ListNode* firstHalf;
-  //   ListNode* secondHalf;
-  //   ListNode* temp;
-  //   temp = split(start, (chainLength / 2));
-  //   firstHalf = mergesort(start, (chainLength / 2));
-  //   secondHalf = mergesort(temp, chainLength - (chainLength / 2));
-  //   return merge(firstHalf, secondHalf);
-  // }
-  // return NULL;
-
-
-
+ 
   if(chainLength == 1){
     return start;
   }else{
@@ -485,9 +423,3 @@ typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength
   }
   
 }
-
-
-// template <typename T>
-// void List<T>::sort() {
-//     mergesort(head_,length_);
-// }
