@@ -120,6 +120,7 @@ class BinaryTree
          *  (not creating a flipped copy).
          */
         void mirror();
+        
 
         /**
          * isOrdered() function iterative version
@@ -136,6 +137,8 @@ class BinaryTree
          *  criterion for a binary tree to be a binary search tree.
          */
         bool isOrderedRecursive() const;
+
+        bool isOrderedRecursive(Node *RRoot, Node *&Pnode) const;
 
         /**
          *  Uses vector to store values of the nodes of a binary tree in order.
@@ -157,7 +160,7 @@ class BinaryTree
          * Look at the private helpers for height and printLeftToRight
          *  as examples.
          */
-
+        void mirrorR(Node *RT);
         /**
          * Private helper function for the public height function.
          * @param subRoot The current node in the recursion
