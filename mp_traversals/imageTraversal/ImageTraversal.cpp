@@ -33,6 +33,7 @@ double ImageTraversal::calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2
  */
 ImageTraversal::Iterator::Iterator() {
   /** @todo [Part 1] */
+  store=NULL;
 }
 
 ImageTraversal::Iterator::Iterator(ImageTraversal *tr, PNG & p,Point & po, double & t) {
@@ -48,13 +49,15 @@ ImageTraversal::Iterator::Iterator(ImageTraversal *tr, PNG & p,Point & po, doubl
 
 
 
-bool ImageTraversal::Iterator::check(const Point & point) const {
+bool ImageTraversal::Iterator::check(Point & point)  {
   if(point.y<png_.height() && point.x<png_.width()) {
     HSLAPixel first = png_.getPixel(start_.x,start_.y);
     HSLAPixel second = png_.getPixel(point.x,point.y);
     bool checkV=visited[point.x + point.y * png_.width()];
     if(!checkV) {
-      return calculateDelta(first,second)<tolerance_;
+      if(calculateDelta(first,second)<tolerance_){
+        return true;
+      }
     }
   }
   return false;
@@ -151,4 +154,5 @@ bool ImageTraversal::Iterator::operator!=(const ImageTraversal::Iterator &other)
   else {
     return 1;
   } 
+  
 }

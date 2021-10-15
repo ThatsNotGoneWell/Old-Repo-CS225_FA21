@@ -4,6 +4,9 @@
  * You'll need to modify this file.
  */
 
+//using namespace std;
+//#include "avltree.h"
+
 template <class K, class V>
 V AVLTree<K, V>::find(const K& key) const
 {
@@ -30,6 +33,18 @@ void AVLTree<K, V>::rotateLeft(Node*& t)
 {
     functionCalls.push_back("rotateLeft"); // Stores the rotation name (don't remove this)
     // your code here
+    Node *curr=t;
+    Node *temp=t->right;
+
+    curr->right=temp->left;
+    temp->left=curr;
+    if(heightOrNeg1(t->left)>heightOrNeg1(t->right)){
+        curr->height=heightOrNeg1(t->left)+1;
+    }else{
+        curr->height=heightOrNeg1(t->right)+1;
+    }
+    
+    t=temp;
 }
 
 template <class K, class V>
@@ -46,6 +61,17 @@ void AVLTree<K, V>::rotateRight(Node*& t)
 {
     functionCalls.push_back("rotateRight"); // Stores the rotation name (don't remove this)
     // your code here
+    Node *curr2=t;
+    Node *temp2=t->left;
+
+    curr2->left=temp2->right;
+    temp2->right=curr2;
+    if(heightOrNeg1(t->left)>heightOrNeg1(t->right)){
+        curr2->height=heightOrNeg1(t->left)+1;
+    }else{
+        curr2->height=heightOrNeg1(t->right)+1;
+    }
+    t=temp2;
 }
 
 template <class K, class V>
@@ -53,12 +79,35 @@ void AVLTree<K, V>::rotateRightLeft(Node*& t)
 {
     functionCalls.push_back("rotateRightLeft"); // Stores the rotation name (don't remove this)
     // your code here
+    rotateRight(t->right);
+    rotateLeft(t);
 }
 
 template <class K, class V>
 void AVLTree<K, V>::rebalance(Node*& subtree)
 {
     // your code here
+    if(subtree==NULL){
+        return;
+    }
+    if(heightOrNeg1(subtree->left)-1>heightOrNeg1(subtree->right)){
+        if(heightOrNeg1(subtree->left->left)-1==heightOrNeg1(subtree->left->right)){
+            rotateRight(subtree);
+        }else{
+            rotateLeftRight(subtree);
+        }
+    }else if(heightOrNeg1(subtree->left)<heightOrNeg1(subtree->right)-1){
+        if(heightOrNeg1(subtree->right->left)==heightOrNeg1(subtree->right->right)-1){
+            rotateLeft(subtree);
+        }else{
+            rotateRightLeft(subtree);
+        }
+    }
+    if(heightOrNeg1(subtree->left)>heightOrNeg1(subtree->right)){
+        subtree->height=heightOrNeg1(subtree->left)+1;
+    }else{
+        subtree->height=heightOrNeg1(subtree->right)+1;
+    }
 }
 
 template <class K, class V>
@@ -71,6 +120,20 @@ template <class K, class V>
 void AVLTree<K, V>::insert(Node*& subtree, const K& key, const V& value)
 {
     // your code here
+    if(subtree==NULL){
+        subtree=new Node(key,value);
+        
+        
+    }else if(subtree->key==key){
+        delete subtree;
+        subtree=new Node(key,value);
+    }else if(subtree->key>key){
+        insert(subtree->left,key,value);
+    }else{
+        insert(subtree->right,key,value);
+    }
+    rebalance(subtree);
+    
 }
 
 template <class K, class V>
@@ -87,19 +150,42 @@ void AVLTree<K, V>::remove(Node*& subtree, const K& key)
 
     if (key < subtree->key) {
         // your code here
+        remove(subtree->left,key);
+        
     } else if (key > subtree->key) {
         // your code here
+        remove(subtree->right,key);
+        
     } else {
         if (subtree->left == NULL && subtree->right == NULL) {
             /* no-child remove */
             // your code here
+            delete subtree;
+            subtree=NULL;
         } else if (subtree->left != NULL && subtree->right != NULL) {
             /* two-child remove */
             // your code here
+            Node *temp=subtree->left;
+            while(temp->right!=NULL){
+                temp=temp->right;
+            }
+            swap(subtree,temp);
+            remove(subtree->left,key);
         } else {
             /* one-child remove */
             // your code here
+            if(subtree->left!=NULL){
+                Node *temp=subtree;
+                subtree=subtree->left;
+                delete temp;
+            }else{
+                Node *temp=subtree;
+                subtree=subtree->right;
+                delete temp;
+            }
         }
-        // your code here
+        // your code here ?
+        
     }
+    rebalance(subtree);
 }

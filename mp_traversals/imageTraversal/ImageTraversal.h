@@ -38,7 +38,7 @@ public:
     bool operator!=(const Iterator &other);
 
     
-    bool check(const Point & point) const;
+    bool check(Point & point) ;
 
     /** @todo [Part 1] */
     /** add member functions if neccesary*/
