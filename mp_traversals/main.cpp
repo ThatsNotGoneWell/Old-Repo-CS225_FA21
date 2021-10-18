@@ -1,4 +1,3 @@
-
 #include "cs225/PNG.h"
 #include "FloodFilledImage.h"
 #include "Animation.h"
@@ -21,12 +20,19 @@ int main() {
   // - The code provided below produces the `myFloodFill.png` file you must
   //   submit Part 3 of this assignment -- uncomment it when you're ready.
   
-  /*
+  
+  PNG pic;
+  pic.readFromFile("i.png");
+  FloodFilledImage image(pic);
+  BFS bfs_(pic,Point(100,100),0.5);
+  MyColorPicker newPic(1.001);
+  image.addFloodFill(bfs_,newPic);
+
+  Animation animation=image.animate(1000);
+  
   PNG lastFrame = animation.getFrame( animation.frameCount() - 1 );
   lastFrame.writeToFile("myFloodFill.png");
   animation.write("myFloodFill.gif");
-  */
-
-
+  
   return 0;
 }

@@ -15,6 +15,7 @@
 #include "Animation.h"
 
 using namespace cs225;
+
 /**
  * This class is used to do flood fill on an image.
  * One or more FloodFill operations will be added and executed in the order they
@@ -30,5 +31,7 @@ public:
 private:
 	/** @todo [Part 2] */
 	/** add private members here*/
-
+  PNG FFI;
+  vector<ImageTraversal*> FFITraversal;
+  vector<ColorPicker*> FFIColorPicker;
 };

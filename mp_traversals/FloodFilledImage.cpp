@@ -2,6 +2,7 @@
 #include <list>
 #include <iostream>
 
+
 #include "colorPicker/ColorPicker.h"
 #include "imageTraversal/ImageTraversal.h"
 
@@ -11,6 +12,7 @@
 
 using namespace cs225;
 
+
 /**
  * Constructs a new instance of a FloodFilledImage with a image `png`.
  * 
@@ -18,6 +20,7 @@ using namespace cs225;
  */
 FloodFilledImage::FloodFilledImage(const PNG & png) {
   /** @todo [Part 2] */
+  FFI=png;
 }
 
 /**
@@ -29,6 +32,8 @@ FloodFilledImage::FloodFilledImage(const PNG & png) {
  */
 void FloodFilledImage::addFloodFill(ImageTraversal & traversal, ColorPicker & colorPicker) {
   /** @todo [Part 2] */
+  FFITraversal.push_back(&traversal);
+  FFIColorPicker.push_back(&colorPicker);
 }
 
 /**
@@ -53,5 +58,22 @@ void FloodFilledImage::addFloodFill(ImageTraversal & traversal, ColorPicker & co
 Animation FloodFilledImage::animate(unsigned frameInterval) const {
   Animation animation;
   /** @todo [Part 2] */
+  PNG pic=FFI;
+  for(unsigned i=0;i<FFITraversal.size();i++){
+    ImageTraversal::Iterator BeginF=FFITraversal[i]->begin();
+    ImageTraversal::Iterator endF=FFITraversal[i]->end();
+
+    unsigned counter=0;
+    for(ImageTraversal::Iterator curr=BeginF;curr!=endF;++curr){
+      if(counter % frameInterval==0){
+        animation.addFrame(pic);
+      }
+      HSLAPixel & pixel=pic.getPixel((*curr).x,(*curr).y);
+      HSLAPixel Clr=FFIColorPicker[i]->getColor((*curr).x,(*curr).y);
+      pixel=Clr;
+      counter++;
+    }
+  }
+  animation.addFrame(pic);
   return animation;
 }

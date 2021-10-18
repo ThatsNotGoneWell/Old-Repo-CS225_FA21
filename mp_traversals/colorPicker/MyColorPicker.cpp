@@ -12,5 +12,25 @@ using namespace cs225;
  */
 HSLAPixel MyColorPicker::getColor(unsigned x, unsigned y) {
   /* @todo [Part 3] */
-  return HSLAPixel();
+  HSLAPixel pixel(hue_,saturation_,luminance_);
+  //index=1/x;
+  hue_*=index;
+  saturation_*=index;
+  luminance_*=index;
+  while(index<0){
+    index*=-1;
+  }
+  while(hue_>=360){
+    hue_-=360;
+  }
+  while(saturation_>=1){
+    saturation_-=1;
+  }
+  while(luminance_>=1){
+    luminance_-=1;
+  }
+  return pixel;
 }
+
+MyColorPicker::MyColorPicker(double index)
+:index(index),hue_(1),saturation_(0.5),luminance_(0.5) { }
