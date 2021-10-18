@@ -22,13 +22,18 @@ int main() {
   
   
   PNG pic;
-  pic.readFromFile("i.png");
+  pic.readFromFile("pacman.png");
   FloodFilledImage image(pic);
-  BFS bfs_(pic,Point(100,100),0.5);
-  MyColorPicker newPic(1.001);
-  image.addFloodFill(bfs_,newPic);
+  DFS dfs_(pic, Point(100,120), 0.2);
+  BFS bfs_(pic,Point(120,70),0.5);
+  
+  MyColorPicker newPic(1.005);
+  image.addFloodFill(dfs_,newPic);
+  MyColorPicker newPic2(1.000001);
+  image.addFloodFill(bfs_,newPic2);
+  
 
-  Animation animation=image.animate(1000);
+  Animation animation=image.animate(200);
   
   PNG lastFrame = animation.getFrame( animation.frameCount() - 1 );
   lastFrame.writeToFile("myFloodFill.png");
