@@ -259,6 +259,15 @@ class KDTree
     /**
      * @todo Add your helper functions here.
      */
+    
+    vector<Point<Dim>> points;
+    double findDistance(const Point<Dim> point1,const Point<Dim> point2) const;
+    KDTreeNode* findNearestNeighbor_(const Point<Dim>& query,typename KDTree<Dim>::KDTreeNode* subroot,int currDim) const;
+    KDTreeNode * KDTree_(int left, int right, int dim);
+    void quickSelect(int left, int right, int index, int currDim);
+    int partition(int left, int right, int pivotI, int currDim);
+    void destroy_(KDTreeNode *root);
+    void copy_(const KDTree<Dim> &other);
 };
 
 #include "kdtree.hpp"
