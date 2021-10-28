@@ -54,6 +54,14 @@ void SCHashTable<K, V>::insert(K const& key, V const& value)
      * @todo Implement this function.
      *
      */
+    ++elems;
+    if(shouldResize()){
+        resizeTable();
+    }
+    std::pair<K,V> pr(key,value);
+    unsigned int hash=hashes::hash(key,size);
+    
+    table[hash].push_front(pr);
 }
 
 template <class K, class V>
@@ -66,7 +74,15 @@ void SCHashTable<K, V>::remove(K const& key)
      * Please read the note in the lab spec about list iterators and the
      * erase() function on std::list!
      */
-    (void) key; // prevent warnings... When you implement this function, remove this line.
+    //(void) key; // prevent warnings... When you implement this function, remove this line.
+    int index=hashes::hash(key,size);
+    for(it=table[index].begin();it!=table[index].end();it++){
+        if(it->first==key){
+            table[index].erase(it);
+            elems--;
+            break;
+        }
+    }
 }
 
 template <class K, class V>
@@ -76,7 +92,16 @@ V SCHashTable<K, V>::find(K const& key) const
     /**
      * @todo: Implement this function.
      */
-
+    unsigned int index=hashes::hash(key,size);
+    typename std::list<std::pair<K,V>>::iterator it=table[index].begin();
+    typename std::list<std::pair<K,V>>::iterator end=table[index].end();
+    while(it!=end){
+        if(key==it->first){
+            return it->second;
+            
+        }
+        it++;
+    }
     return V();
 }
 
@@ -134,4 +159,19 @@ void SCHashTable<K, V>::resizeTable()
      *
      * @hint Use findPrime()!
      */
+    size_t new_size=findPrime(size*2);
+    std::list<std::pair<K,V>> *old_table=table;
+    table=new std::list<std::pair<K,V>>[new_size];
+    for(unsigned int i=0;i<size;i++){
+        it=old_table[i].begin();
+        typename std::list<std::pair<K,V>>::iterator end=old_table[i].end();
+        while(it!=end){
+            unsigned int index=hashes::hash(it->first,new_size);
+            table[index].push_front(*it);
+            it++;
+        }
+    }
+    size=new_size;
+    delete[] old_table;
+    old_table=nullptr;
 }

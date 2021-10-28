@@ -79,9 +79,18 @@ void LPHashTable<K, V>::insert(K const& key, V const& value)
      * **Do this check *after* increasing elems (but before inserting)!!**
      * Also, don't forget to mark the cell for probing with should_probe!
      */
-
-    (void) key;   // prevent warnings... When you implement this function, remove this line.
-    (void) value; // prevent warnings... When you implement this function, remove this line.
+    ++elems;
+    if(shouldResize()){
+        resizeTable();
+    }
+    unsigned int index=hashes::hash(key,size);
+    while(table[index]!=NULL){
+        index=(index+1)%size;
+    }
+    table[index]=new std::pair<K,V>(key,value);
+    should_probe[index]=true;
+    // (void) key;   // prevent warnings... When you implement this function, remove this line.
+    // (void) value; // prevent warnings... When you implement this function, remove this line.
 }
 
 template <class K, class V>
@@ -90,6 +99,12 @@ void LPHashTable<K, V>::remove(K const& key)
     /**
      * @todo: implement this function
      */
+    int index=findIndex(key);
+    if(index!=-1){
+        delete table[index];
+        table[index]=nullptr;
+        --elems;
+    }
 }
 
 template <class K, class V>
@@ -101,7 +116,14 @@ int LPHashTable<K, V>::findIndex(const K& key) const
      *
      * Be careful in determining when the key is not in the table!
      */
-
+    unsigned int hash=hashes::hash(key,size);
+    while(should_probe[hash]){
+        if(table[hash]&&table[hash]->first==key){
+            return hash;
+        }
+        hash++;
+        hash=hash%size;
+    }
     return -1;
 }
 
@@ -159,4 +181,33 @@ void LPHashTable<K, V>::resizeTable()
      *
      * @hint Use findPrime()!
      */
+    int idx = 0;
+    size_t oldSize = size;
+    size_t newSize = findPrime((size * 2));
+    size = newSize;
+    delete [] should_probe;
+    should_probe = NULL;
+    should_probe = new bool[size];
+    std::pair<K, V> **newTable = new std::pair<K, V>*[size];
+    unsigned long count = 0;
+    while(count < size) {
+      should_probe[count] = false;
+      newTable[count] = NULL;
+      count++;
+    }
+    count = 0;
+    while (count < oldSize) {
+      if(table[count] != NULL) {
+        idx = hashes::hash(table[count]->first, size);
+        while(newTable[idx] != NULL) {
+          idx = (idx + 1) % size;
+        }
+        newTable[idx] = table[count];
+        should_probe[idx] = true;
+      }
+      count++;
+    }
+    delete [] table;
+    table = NULL;
+    table = newTable;
 }
