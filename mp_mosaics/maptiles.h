@@ -19,6 +19,7 @@
 #include "tileimage.h"
 
 using namespace cs225;
+using namespace std;
 
 /**
  * Map the image tiles into a mosaic canvas which closely

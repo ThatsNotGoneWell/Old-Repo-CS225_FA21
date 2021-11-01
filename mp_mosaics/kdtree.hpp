@@ -73,7 +73,9 @@ KDTree<Dim>::KDTree(const KDTree<Dim>& other) {
    * @todo Implement this function!
    */
   points = other.points;
-  root = KDTree_(0, points.size() - 1, 0);
+  int start=0;
+  int end=points.size();
+  root = KDTree_(start, end - 1, 0);
 }
 
 template <int Dim>
@@ -85,9 +87,10 @@ typename KDTree<Dim>::KDTreeNode * KDTree<Dim>::KDTree_(int left, int right, int
   if(left <= right) {
     quickSelect(left, right, (left + right) / 2, currDim);
     subroot = new KDTreeNode(points[(left + right) / 2]);
-    subroot->left = KDTree_(left, (left + right) / 2 - 1, (currDim + 1) % Dim);
-    subroot->right = KDTree_((left + right) / 2 + 1, right, (currDim + 1) % Dim);
-    
+    int modDim=(currDim + 1) % Dim;
+    int AvLR=(left+right)/2;
+    subroot->left = KDTree_(left, AvLR - 1, modDim);
+    subroot->right = KDTree_(AvLR + 1, right, modDim);
   }
   return subroot;
 }
