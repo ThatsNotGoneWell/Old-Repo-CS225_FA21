@@ -7,7 +7,9 @@
 
 using namespace std;
 
-
+SquareMaze::SquareMaze() {
+	
+}
 
 void SquareMaze::makeMaze(int width, int height) {
     width_ = width;
