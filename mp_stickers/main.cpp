@@ -15,9 +15,9 @@ int main() {
   
   mp2pic.addSticker(sticker1, 15, 35);
   
-  mp2pic.addSticker(sticker2, 295, 60);
+  
   mp2pic.addSticker(sticker2, 550, 60);
-  mp2pic.addSticker(sticker3, 400, 140);
+  
   
   output = mp2pic.render();
   

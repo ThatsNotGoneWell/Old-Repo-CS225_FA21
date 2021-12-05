@@ -6,7 +6,7 @@
 #include "Image.h"
 
  
-//using namespace std;
+using namespace std;
 
 class StickerSheet {
     public:
@@ -28,7 +28,10 @@ class StickerSheet {
         unsigned num_stickers;
         unsigned *X_coor;
         unsigned *Y_coor;
-        Image BGImage;
+        Image *BGImage;
         Image **stickerz;
+
+        
+            
 
 };
